@@ -48,3 +48,17 @@ def hello_world():
     print('Hello world!')
 
 hello_world()
+
+#we can also pass arguments using python's *args and **kwargs
+def add_border(func):
+    def wrapped_func(*args, **kwargs):
+        print('=' * 30)
+        func(*args, **kwargs)
+        print('=' * 30)
+    return wrapped_func
+
+@add_border
+def greeting(name):
+    print("Hello {}!".format(name))
+
+greeting("Alice")
