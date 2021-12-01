@@ -2,7 +2,7 @@
 define a network of 3 hosts and integrate with an external ryu controller
 author: Ben Cravens
 """
-
+from mininet.cli import CLI
 from mininet.topo import Topo
 from mininet.net import Mininet
 from mininet.node import RemoteController, OVSController
@@ -23,7 +23,7 @@ class ryu_net():
     def __init__(self, hostnum=3):
         #build our network
         self.topo=single_switch_topo(hostnum)
-        self.net = Mininet(topo=topo, controller=OVSController)
+        self.net = Mininet(topo=self.topo, controller=OVSController)
         self.net.start()
         #run ifconfig on each host
         for i in range(hostnum):
@@ -33,7 +33,7 @@ class ryu_net():
             print(result)
         CLI(self.net)
         
-    def stop(self):
+    def disconnect(self):
         #stop network
         self.net.stop()
 
@@ -43,4 +43,4 @@ class ryu_net():
 
 if __name__=="__main__":
     my_net = ryu_net()
-    ryu_net.stop()
+    my_net.disconnect()
