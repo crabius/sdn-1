@@ -41,6 +41,6 @@ class ryu_net():
         #connect to external ryu controller..
         self.net.addController('co', controller=RemoteController, ip='127.0.0.1', port=6633)                                                   
 
-if __name__==“__main__”:
+if __name__=="__main__":
     my_net = ryu_net()
     ryu_net.stop()
