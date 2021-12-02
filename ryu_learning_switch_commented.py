@@ -41,7 +41,8 @@ class SimpleSwitch(app_manager.RyuApp):
         #essentially a "in class" switch table
         self.mac_to_port = {}
 
-    #adds a "flow" (an entry in a switch table)
+    #adds a "flow" (an entry in a switch table associating a MAC address with an
+    #output interface
     def add_flow(self, datapath, in_port, dst, src, actions):
         #get protocol (here this is openflow)
         ofproto = datapath.ofproto
@@ -91,7 +92,7 @@ class SimpleSwitch(app_manager.RyuApp):
 
         #if our destination is in the switch table
         if dst in self.mac_to_port[dpid]:
-            #send our packet their
+            #send our packet out of that interface
             out_port = self.mac_to_port[dpid][dst]
         else:
             #otherwise behave like a hub (broadcast)
@@ -100,7 +101,7 @@ class SimpleSwitch(app_manager.RyuApp):
         #define port to send the packet to
         actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]
 
-        # install a flow to avoid packet_in next time
+        # install a flow to avoid broadcasting next time
         # in other words, modify the switch table on the actual switch
         if out_port != ofproto.OFPP_FLOOD:
             self.add_flow(datapath, msg.in_port, dst, src, actions)
