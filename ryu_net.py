@@ -23,14 +23,20 @@ class ryu_net():
     def __init__(self, hostnum=3):
         #build our network
         self.topo=single_switch_topo(hostnum)
-        self.net = Mininet(topo=self.topo, controller=OVSController)
+        self.net = Mininet(topo=self.topo, controller=None)
+        #connect controller
+        self.connect_ryu()
         self.net.start()
-        #run ifconfig on each host
-        for i in range(hostnum):
-            host_str = "h{}".format(i+1)
-            host = self.net.get(host_str)
-            result = host.cmd('ifconfig')
-            print(result)
+        #run a couple of pings to show the switch learning the route..
+        #the first ping will be slow, subsequent pings will be fast.
+        h1 = self.net.get('h1')
+        h2 = self.net.get('h2')
+        h3 = self.net.get('h3')
+        hosts=[h1,h2,h3]
+        print(h1.cmd('ping -c 3', h2.IP()))
+        print(h2.cmd('ping -c 3', h3.IP()))
+        print(h3.cmd('ping -c 3', h1.IP()))
+        #run mininet command line interface
         CLI(self.net)
         
     def disconnect(self):

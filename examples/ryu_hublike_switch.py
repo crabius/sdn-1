@@ -18,7 +18,7 @@ class simple_switch(app_manager.RyuApp):
     #set_ev_cls tells us when this packet handler method should be invoked
     #we set it to EventOFPPacketIn, i.e we recieve a packet
     #MAIN_DISPATCHER tells us to call only after we have the whole packet
-    @set_ev_cls(ofp.event.EventOFPPacketIn, MAIN_DISPATCHER)
+    @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def packet_in_handler(self, ev):
         #ev.msg is a data structure that holds incoming openflow packet
         msg = ev.msg
