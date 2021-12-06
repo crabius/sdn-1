@@ -86,6 +86,10 @@ class SimpleSwitch(app_manager.RyuApp):
 
         self.logger.info("packet in %s %s %s %s", dpid, src, dst, msg.in_port)
 
+        #Task 1: block traffic between host 2 and host 3.
+        print("destination MAC: {}".format(dst))
+        print("source MAC: {}".format(src))
+
         # Associate the mac address with the interface in the table
         # to avoid broadcasting the packet next time.
         self.mac_to_port[dpid][src] = msg.in_port
