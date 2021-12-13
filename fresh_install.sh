@@ -23,4 +23,4 @@ sudo mn --controller=remote --topo=single,3 --switch=ovsk,protocols=OpenFlow10 -
 
 echo "starting ryu controller"
 # run ryu controller
-ryu-manager ./sdn/ss13_commented.py
+ryu-manager ./sdn/ss13_filter.py
